@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+/**
+ * base.css — Tokens, reset y base tipográfica.
+ * Tailwind v4: los @theme generan utilities como bg-brand, text-ink, etc.
+ */
+
+@theme {
+  --color-brand: #16a34a;
+  --color-brand-dark: #15803d;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-card: #ffffff;
+  --color-page: #f1f5f9;
+  --color-line: #e2e8f0;
+  --color-accent: #f59e0b;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-page);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
