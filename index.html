@@ -2,13 +2,63 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- TODO Despliegue: sustituye https://cheapstation.es/ por el dominio
+         definitivo en `canonical`, `og:url` y `og:image`. -->
+    <title>CheapStation — Gasolineras baratas por código postal</title>
     <meta
       name="description"
-      content="CheapStation — Encuentra las gasolineras más baratas cerca de tu código postal. Precios oficiales actualizados."
+      content="CheapStation: introduce tu código postal y encuentra las gasolineras más cercanas ordenadas de más barata a más cara. Precios oficiales actualizados, gratis y sin registro."
     />
-    <title>CheapStation — Gasolineras baratas por código postal</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="CheapStation" />
+    <link rel="canonical" href="https://cheapstation.es/" />
+
+    <!-- Iconos: SVG para navegadores modernos, PNG 180px para iOS -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Color de la barra del navegador en móvil -->
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Open Graph: tarjeta al compartir en WhatsApp, Facebook, LinkedIn… -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CheapStation" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:url" content="https://cheapstation.es/" />
+    <meta
+      property="og:title"
+      content="CheapStation — Gasolineras baratas por código postal"
+    />
+    <meta
+      property="og:description"
+      content="Encuentra las gasolineras más cercanas a tu código postal, ordenadas de más barata a más cara. Precios oficiales actualizados."
+    />
+    <meta property="og:image" content="https://cheapstation.es/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Logotipo de CheapStation: surtidor de gasolina"
+    />
+
+    <!-- Twitter/X: tarjeta grande con imagen -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="CheapStation — Gasolineras baratas por código postal"
+    />
+    <meta
+      name="twitter:description"
+      content="Encuentra las gasolineras más cercanas a tu código postal, ordenadas de más barata a más cara."
+    />
+    <meta name="twitter:image" content="https://cheapstation.es/og-image.png" />
+
+    <!-- Acelera la primera búsqueda: conexiones anticipadas a las APIs -->
+    <link rel="preconnect" href="https://sedeaplicaciones.minetur.gob.es" />
+    <link rel="preconnect" href="https://api.zippopotam.us" />
+    <link rel="preconnect" href="https://nominatim.openstreetmap.org" />
   </head>
   <body>
     <div id="root"></div>

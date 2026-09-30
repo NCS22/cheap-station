@@ -23,7 +23,7 @@ export function SearchForm({
   cargando,
   onBuscar,
 }: Props) {
-  const enviar = (e: React.FormEvent) => {
+  const enviar = (e: React.FormEvent) => { /*TODO: Aquí probablemente haya que cambiar a React.SubmitEvent ya que esta deprecado.*/
     e.preventDefault();
     onBuscar();
   };
