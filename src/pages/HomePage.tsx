@@ -19,6 +19,8 @@ export function HomePage() {
       <Header />
       <main className="page__main">
         <SearchForm
+          modo={busqueda.modo}
+          onModo={busqueda.setModo}
           codigoPostal={busqueda.codigoPostal}
           onCodigoPostal={busqueda.setCodigoPostal}
           combustibleId={busqueda.combustibleId}
@@ -27,6 +29,7 @@ export function HomePage() {
           onRadio={busqueda.setRadioKm}
           cargando={busqueda.cargando}
           onBuscar={() => void busqueda.buscar()}
+          onLocalizar={() => void busqueda.buscarPorUbicacion()}
         />
 
         {busqueda.cargando && <LoadingSpinner />}

@@ -28,14 +28,15 @@ export function StationList({
   }
 
   const masBarata = estaciones.find((e) => e.precio !== null)?.precio ?? null;
+  const titulo =
+    punto?.origen === 'gps'
+      ? `${estaciones.length} gasolineras cerca de tu ubicación${punto.localidad ? ` (${punto.localidad})` : ''}`
+      : `${estaciones.length} gasolineras cerca de ${punto ? `${punto.codigoPostal} (${punto.localidad})` : ''}`;
 
   return (
     <section className="results" aria-live="polite">
       <div className="results__header">
-        <h2 className="results__title">
-          {estaciones.length} gasolineras cerca de{' '}
-          {punto ? `${punto.codigoPostal} (${punto.localidad})` : ''}
-        </h2>
+        <h2 className="results__title">{titulo}</h2>
         <p className="results__subtitle">
           Ordenadas de más barata a más cara · {combustibleEtiqueta}
           {fechaPrecios ? ` · Consultado: ${fechaPrecios}` : ''}

@@ -64,13 +64,18 @@ export interface Estacion {
   distanciaKm: number | null;
 }
 
-/** Resultado de geocodificar un código postal. */
+/** Origen del punto de búsqueda: CP introducido o GPS del dispositivo. */
+export type OrigenBusqueda = 'postal' | 'gps';
+
+/** Punto central de una búsqueda (CP geocodificado o ubicación GPS). */
 export interface PuntoBusqueda {
+  /** Vacío en modo GPS: allí no hay código postal. */
   codigoPostal: string;
   latitud: number;
   longitud: number;
   localidad: string;
   provincia: string;
+  origen: OrigenBusqueda;
 }
 
 export type EstadoBusqueda = 'inicial' | 'cargando' | 'exito' | 'error';

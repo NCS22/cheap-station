@@ -44,6 +44,10 @@
   gap: 0.75rem;
 }
 
+.search-form__row--single {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 480px) {
   .search-form__row {
     grid-template-columns: 1fr;
@@ -113,6 +117,64 @@
 
 .chip__input {
   display: none;
+}
+
+/* ---------- Pestañas de modo CP / GPS ---------- */
+
+.mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  background: #f1f5f9;
+  border: 1px solid var(--color-line);
+  border-radius: 0.9rem;
+  padding: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.mode-tab {
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mode-tab--active {
+  background: #fff;
+  color: var(--color-ink);
+  box-shadow: 0 1px 4px rgb(15 23 42 / 0.12);
+}
+
+/* ---------- Botón de ubicación GPS ---------- */
+
+.btn-location {
+  border: 0;
+  border-radius: 0.9rem;
+  padding: 0.9rem 1.2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #0f172a;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.btn-location:hover:not(:disabled) {
+  background: #1e293b;
+}
+
+.btn-location:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.btn-location:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .btn-primary {

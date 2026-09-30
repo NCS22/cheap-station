@@ -75,6 +75,7 @@ export async function geocodificarCodigoPostal(
     longitud: centro.longitud,
     localidad: lugarCercano?.nombre ?? '',
     provincia: lugarCercano?.provincia ?? '',
+    origen: 'postal',
   };
 }
 
