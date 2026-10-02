@@ -20,9 +20,9 @@
 }
 
 .app-header {
-  background: #0f172a;
+  background: var(--color-asfalto);
   color: #fff;
-  border-bottom: 1px solid #1e293b;
+  border-bottom: 1px solid #1b3230;
 }
 
 .app-header__inner {

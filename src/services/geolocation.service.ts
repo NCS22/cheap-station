@@ -1,4 +1,8 @@
-import { GPS_OPTIONS, nominatimReverseUrl } from '../config/app.config';
+import {
+  GPS_OPTIONS,
+  nominatimReverseUrl,
+  TIEMPO_ESPERA_RED_MS,
+} from '../config/app.config';
 import type { PuntoBusqueda } from '../types';
 
 interface DireccionNominatim {
@@ -24,7 +28,10 @@ interface RespuestaReverse {
  */
 export function hayGeolocalizacion(): boolean {
   return (
-    typeof navigator !== 'undefined' && 'geolocation' in navigator
+    typeof window !== 'undefined' &&
+    window.isSecureContext &&
+    typeof navigator !== 'undefined' &&
+    'geolocation' in navigator
   );
 }
 
@@ -85,7 +92,9 @@ async function EtiquetaCercana(
   longitud: number,
 ): Promise<{ localidad: string; provincia: string }> {
   try {
-    const respuesta = await fetch(nominatimReverseUrl(latitud, longitud));
+    const respuesta = await fetch(nominatimReverseUrl(latitud, longitud), {
+      signal: AbortSignal.timeout(TIEMPO_ESPERA_RED_MS),
+    });
     if (!respuesta.ok) return { localidad: '', provincia: '' };
     const datos = (await respuesta.json()) as RespuestaReverse;
     const dir = datos.address;

@@ -41,7 +41,7 @@ export function useStationSearch() {
   /** Núcleo compartido: descarga precios y aplica filtro + orden. */
   const ejecutarRanking = useCallback(
     async (puntoBusqueda: PuntoBusqueda) => {
-      const todas = await obtenerTodasLasEstaciones();
+      const { estaciones: todas, fecha } = await obtenerTodasLasEstaciones();
       const campoPrecio =
         COMBUSTIBLES.find((c) => c.id === combustibleId)?.campoPrecio ??
         COMBUSTIBLES[0].campoPrecio;
@@ -52,7 +52,7 @@ export function useStationSearch() {
       });
       setPunto(puntoBusqueda);
       setEstaciones(resultado);
-      setFechaPrecios(new Date().toLocaleString('es-ES'));
+      setFechaPrecios(fecha || null);
       setEstado('exito');
     },
     [combustibleId, radioKm],
@@ -84,11 +84,7 @@ export function useStationSearch() {
     setEstado('cargando');
     setError(null);
     try {
-      const [puntoBusqueda] = await Promise.all([
-        obtenerUbicacionActual(),
-        // Calienta la caché de precios en paralelo con el fix GPS.
-        obtenerTodasLasEstaciones(),
-      ]);
+      const puntoBusqueda = await obtenerUbicacionActual();
       await ejecutarRanking(puntoBusqueda);
     } catch (e) {
       setError(

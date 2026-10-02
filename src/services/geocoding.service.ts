@@ -1,6 +1,7 @@
 import {
   geocodificarUrl,
   nominatimCodigoPostalUrl,
+  TIEMPO_ESPERA_RED_MS,
 } from '../config/app.config';
 import type { PuntoBusqueda } from '../types';
 import { centroideRobusto, distanciaKm } from '../utils/geo.utils';
@@ -42,6 +43,11 @@ interface ResultadoNominatim {
  *    lugares de Zippopotam (promedio con rechazo de atípicos), nunca
  *    `places[0]` a ciegas.
  *
+ * Las dos fuentes se resuelven por separado: el fallo de una nunca arrastra
+ * a la otra. Solo es "código no encontrado" cuando Nominatim no lo conoce Y
+ * Zippopotam devuelve 404; si alguna falla por red pero la otra responde,
+ * la búsqueda sigue adelante con lo que haya.
+ *
  * La etiqueta mostrada (localidad) es siempre el lugar más cercano al punto
  * central elegido, para que nombre y coordenadas sean coherentes.
  */
@@ -50,12 +56,20 @@ export async function geocodificarCodigoPostal(
 ): Promise<PuntoBusqueda> {
   const cp = codigoPostal.trim();
 
-  const [lugares, centroideNominatim] = await Promise.all([
+  const [resultadoZip, centroideNominatim] = await Promise.all([
     obtenerLugaresZippopotam(cp),
     obtenerCentroideNominatim(cp),
   ]);
 
-  if (lugares.length === 0 && !centroideNominatim) {
+  const lugares =
+    resultadoZip.estado === 'ok' ? resultadoZip.lugares : [];
+
+  if (!centroideNominatim && lugares.length === 0) {
+    if (resultadoZip.estado === 'fallo-red') {
+      throw new Error(
+        'No se pudo contactar con el servicio de localización. Revisa tu conexión.',
+      );
+    }
     throw new Error(`No hemos encontrado el código postal ${cp}.`);
   }
 
@@ -79,23 +93,33 @@ export async function geocodificarCodigoPostal(
   };
 }
 
-/** Descarga todos los lugares del CP. 404 → CP inexistente (error). */
-async function obtenerLugaresZippopotam(cp: string): Promise<LugarZippopotam[]> {
+type ResultadoZip =
+  | { estado: 'ok'; lugares: LugarZippopotam[] }
+  | { estado: 'no-encontrado' }
+  | { estado: 'fallo-red' };
+
+/**
+ * Descarga todos los lugares del CP sin lanzar errores: 404 significa que
+ * el CP no existe, y cualquier otro fallo (red o respuesta inesperada) se
+ * devuelve como fallo-red para que quien llama decida. Así un fallo de red
+ * de Zippopotam nunca invalida un centroide válido de Nominatim.
+ */
+async function obtenerLugaresZippopotam(
+  cp: string,
+): Promise<ResultadoZip> {
   let respuesta: Response;
   try {
-    respuesta = await fetch(geocodificarUrl(cp));
+    respuesta = await fetch(geocodificarUrl(cp), {
+      signal: AbortSignal.timeout(TIEMPO_ESPERA_RED_MS),
+    });
   } catch {
-    throw new Error(
-      'No se pudo contactar con el servicio de localización. Revisa tu conexión.',
-    );
+    return { estado: 'fallo-red' };
   }
   if (respuesta.status === 404) {
-    throw new Error(
-      `No hemos encontrado el código postal ${cp}. Comprueba que sea correcto.`,
-    );
+    return { estado: 'no-encontrado' };
   }
   if (!respuesta.ok) {
-    throw new Error('Error al localizar el código postal. Inténtalo de nuevo.');
+    return { estado: 'fallo-red' };
   }
   const datos = (await respuesta.json()) as RespuestaZippopotam;
   const lugares: LugarZippopotam[] = [];
@@ -110,7 +134,7 @@ async function obtenerLugaresZippopotam(cp: string): Promise<LugarZippopotam[]> 
       provincia: p.state ?? '',
     });
   }
-  return lugares;
+  return { estado: 'ok', lugares };
 }
 
 /**
@@ -122,7 +146,9 @@ async function obtenerCentroideNominatim(
   cp: string,
 ): Promise<{ latitud: number; longitud: number } | null> {
   try {
-    const respuesta = await fetch(nominatimCodigoPostalUrl(cp));
+    const respuesta = await fetch(nominatimCodigoPostalUrl(cp), {
+      signal: AbortSignal.timeout(TIEMPO_ESPERA_RED_MS),
+    });
     if (!respuesta.ok) return null;
     const datos = (await respuesta.json()) as ResultadoNominatim[];
     if (!Array.isArray(datos) || datos.length === 0) return null;

@@ -23,3 +23,24 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Variables de entorno (Vite las carga automaticamente; evita subir claves)
+.env
+.env.*
+!.env.example
+
+# Cache de compilacion TypeScript (tsc -b del build genera *.tsbuildinfo)
+*.tsbuildinfo
+
+# Despliegue Vercel (el CLI crea .vercel/ con IDs del proyecto)
+.vercel
+
+# Windows (el Explorador genera estos archivos solo)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Scripts python desechables de validacion (ver AGENTS.md)
+__pycache__/
+*.py[cod]

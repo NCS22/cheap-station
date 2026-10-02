@@ -31,13 +31,13 @@ export function StationCard({ estacion, posicion }: Props) {
         </div>
         <p className="station-card__address">
           {capitalizar(estacion.direccion)}
-          {estacion.localidad ? ` · ${capitalizar(estacion.localidad)}` : ''}
+          {estacion.localidad ? `, ${capitalizar(estacion.localidad)}` : ''}
         </p>
         <div className="station-card__meta">
           <span className="badge">{formatoDistancia(estacion.distanciaKm)}</span>
           {estacion.horario && (
             <span className="station-card__hours" title={estacion.horario}>
-              🕒 {estacion.horario}
+              {estacion.horario}
             </span>
           )}
           {mapsUrl && (
@@ -47,7 +47,7 @@ export function StationCard({ estacion, posicion }: Props) {
               target="_blank"
               rel="noreferrer"
             >
-              Cómo llegar →
+              Cómo llegar
             </a>
           )}
         </div>

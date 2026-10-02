@@ -38,8 +38,8 @@ export function Footer() {
           rel="noreferrer"
         >
           Ministerio para la Transición Ecológica
-        </a>{' '}
-        · Localización: Zippopotam / OpenStreetMap
+        </a>
+          , localización: Zippopotam y OpenStreetMap
       </p>
     </footer>
   );

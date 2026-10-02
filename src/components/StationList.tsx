@@ -38,8 +38,8 @@ export function StationList({
       <div className="results__header">
         <h2 className="results__title">{titulo}</h2>
         <p className="results__subtitle">
-          Ordenadas de más barata a más cara · {combustibleEtiqueta}
-          {fechaPrecios ? ` · Consultado: ${fechaPrecios}` : ''}
+          Ordenadas de más barata a más cara ({combustibleEtiqueta}
+          {fechaPrecios ? `, precios del ${fechaPrecios}` : ''})
         </p>
       </div>
       <ol className="results__list">

@@ -1,4 +1,5 @@
 import { COMBUSTIBLES, RADIOS_KM } from '../config/app.config';
+import { hayGeolocalizacion } from '../services/geolocation.service';
 import type { FuelId, OrigenBusqueda } from '../types';
 import { LocationButton } from './LocationButton';
 
@@ -36,6 +37,10 @@ export function SearchForm({
     else onBuscar();
   };
 
+  // Sin GPS disponible (navegador sin soporte o página sin HTTPS) no se
+  // muestra la pestaña de ubicación: el código postal queda como única vía.
+  const gpsDisponible = hayGeolocalizacion();
+
   return (
     <section className="hero-card" aria-labelledby="titulo-buscador">
       <h1 id="titulo-buscador" className="hero-card__title">
@@ -47,26 +52,28 @@ export function SearchForm({
           : 'Introduce tu código postal y te mostramos las gasolineras más cercanas, ordenadas de más barata a más cara.'}
       </p>
 
-      <div className="mode-tabs" role="tablist" aria-label="Modo de búsqueda">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={modo === 'postal'}
-          className={`mode-tab ${modo === 'postal' ? 'mode-tab--active' : ''}`}
-          onClick={() => onModo('postal')}
-        >
-          Código postal
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={modo === 'gps'}
-          className={`mode-tab ${modo === 'gps' ? 'mode-tab--active' : ''}`}
-          onClick={() => onModo('gps')}
-        >
-          Mi ubicación
-        </button>
-      </div>
+      {gpsDisponible && (
+        <div className="mode-tabs" role="tablist" aria-label="Modo de búsqueda">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={modo === 'postal'}
+            className={`mode-tab ${modo === 'postal' ? 'mode-tab--active' : ''}`}
+            onClick={() => onModo('postal')}
+          >
+            Código postal
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={modo === 'gps'}
+            className={`mode-tab ${modo === 'gps' ? 'mode-tab--active' : ''}`}
+            onClick={() => onModo('gps')}
+          >
+            Mi ubicación
+          </button>
+        </div>
+      )}
 
       <form className="search-form" onSubmit={enviar}>
         {modo === 'postal' ? (

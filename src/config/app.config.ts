@@ -40,6 +40,17 @@ export const GPS_OPTIONS: PositionOptions = {
 export const CACHE_ESTACIONES_KEY = 'cheapstation:estaciones:v1';
 export const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutos
 
+/**
+ * Límite de espera para las peticiones de red (`AbortSignal.timeout`).
+ * 30 s: el feed del Ministerio pesa ~12 MB y en móvil lento puede tardar
+ * más de 15 s en descargarse, así que un timeout corto (5-10 s) cortaría
+ * descargas válidas; 30 s es suficiente para 3G lento sin dejar la UI en
+ * "Buscando…" para siempre si el servidor deja la conexión a medias.
+ * Se reutiliza para Zippopotam/Nominatim (respuestas pequeñas que
+ * normalmente llegan en < 2 s): si tardan 30 s, algo va mal igual.
+ */
+export const TIEMPO_ESPERA_RED_MS = 30_000;
+
 export const COMBUSTIBLES: TipoCombustible[] = [
   {
     id: 'gasolina95',

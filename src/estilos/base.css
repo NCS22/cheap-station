@@ -6,15 +6,17 @@
  */
 
 @theme {
-  --color-brand: #16a34a;
-  --color-brand-dark: #15803d;
-  --color-ink: #0f172a;
-  --color-muted: #64748b;
+  --color-brand: #0f8a4d;
+  --color-brand-dark: #0b6b3c;
+  --color-ink: #0d2221;
+  --color-muted: #5b6b69;
   --color-card: #ffffff;
-  --color-page: #f1f5f9;
-  --color-line: #e2e8f0;
-  --color-accent: #f59e0b;
+  --color-page: #e9edea;
+  --color-line: #d2dad6;
+  --color-asfalto: #0d2221;
+  --color-marcador: #ffb300;
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Archivo', 'Inter', ui-sans-serif, system-ui, sans-serif;
 }
 
 html {
@@ -27,6 +29,22 @@ body {
   background: var(--color-page);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visible ámbar: se ve sobre fondo claro y sobre asfalto. */
+:where(a, button, input, select):focus-visible {
+  outline: 3px solid var(--color-marcador);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .spinner {
+    animation: none;
+  }
 }
 
 .sr-only {
