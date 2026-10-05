@@ -17,6 +17,10 @@
   --color-marcador: #ffb300;
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Archivo', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --shadow-card: 0 1px 2px rgb(13 34 33 / 0.06), 0 8px 24px rgb(13 34 33 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(13 34 33 / 0.08), 0 12px 32px rgb(13 34 33 / 0.12);
+  --radius-card: 1.25rem;
+  --radius-control: 0.75rem;
 }
 
 html {
@@ -29,6 +33,24 @@ body {
   background: var(--color-page);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Superficies del navegador con la paleta propia. */
+::selection {
+  background: var(--color-marcador);
+  color: var(--color-asfalto);
+}
+
+input,
+select,
+textarea {
+  caret-color: var(--color-brand-dark);
+}
+
+input::placeholder {
+  color: #6f7f7c;
+  opacity: 1;
 }
 
 /* Foco visible ámbar: se ve sobre fondo claro y sobre asfalto. */

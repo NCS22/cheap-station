@@ -27,7 +27,11 @@ export function StationCard({ estacion, posicion }: Props) {
           <h3 className="station-card__name">
             {capitalizar(estacion.rotulo)}
           </h3>
-          <p className="station-card__price">{formatoPrecio(estacion.precio)}</p>
+          <p
+            className={`station-card__price${estacion.precio === null ? ' station-card__price--empty' : ''}`}
+          >
+            {formatoPrecio(estacion.precio)}
+          </p>
         </div>
         <p className="station-card__address">
           {capitalizar(estacion.direccion)}
@@ -48,6 +52,15 @@ export function StationCard({ estacion, posicion }: Props) {
               rel="noreferrer"
             >
               Cómo llegar
+              <svg viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path
+                  d="M3 9 9 3M4.5 3H9v4.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </a>
           )}
         </div>
