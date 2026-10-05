@@ -12,6 +12,9 @@ aporte.
 - Precios oficiales del Ministerio, con caché en localStorage durante 30 min.
 - Pendiente antes de publicar: sustituir la URL provisional `https://cheapstation.es/`
   en `index.html` (marcada con `TODO`).
+- Agentes propios en `.opencode/agents/`: `traductor` (traduce informes a lenguaje
+  llano; fase SDD tras Validación) y `recruiter` (crea agentes nuevos, se invoca
+  con `/new-agent nombre Descripción`). Ambos registrados en `coordinator.md`.
 
 ## Decisiones (y por qué)
 - Sin backend ni base de datos: los precios cambian a diario y sincronizarlos exigiría
